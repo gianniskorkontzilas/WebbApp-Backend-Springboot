@@ -1,1 +1,1 @@
-# gianniskorkontzilas-WebbApp-Backend-Springboot
+# WebbApp-Backend-Springboot
