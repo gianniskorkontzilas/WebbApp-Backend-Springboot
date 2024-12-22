@@ -15,10 +15,11 @@ import java.util.List;
 @Table(name = "Stores")
 public class Store {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "name" , nullable = false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)

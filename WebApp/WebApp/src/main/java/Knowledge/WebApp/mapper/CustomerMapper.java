@@ -1,14 +1,14 @@
 package Knowledge.WebApp.mapper;
 
-
 import Knowledge.WebApp.dto.CustomerDTO;
 import Knowledge.WebApp.model.Customer;
-import org.springframework.stereotype.Component;
 
-@Component
 public class CustomerMapper {
 
-    public CustomerDTO toDTO(Customer customer) {
+    private CustomerMapper() {
+    }
+
+    public static CustomerDTO toDTO(Customer customer) {
         if (customer == null) {
             return null;
         }
@@ -20,7 +20,7 @@ public class CustomerMapper {
         return dto;
     }
 
-    public Customer toEntity(CustomerDTO dto) {
+    public static Customer toEntity(CustomerDTO dto) {
         if (dto == null) {
             return null;
         }

@@ -13,22 +13,24 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Entity
+@Data
 @Table(name = "Customers")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "vat_number", nullable = false, unique = true)
     private String vatNumber;
 
-    @Column(nullable = false)
+    @Column(name = "first_name" , nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(name = "last_name" ,  nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
     @ManyToOne

@@ -13,6 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StoreDTO {
+
+    @NotNull
     private Long id;
 
     @NotNull

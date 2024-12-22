@@ -13,13 +13,14 @@ import lombok.*;
 @Table(name = "Users")
 public class User {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "login" , nullable = false, unique = true)
     private String login;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "password" , nullable = false, unique = true)
     private String password;
 }
 
