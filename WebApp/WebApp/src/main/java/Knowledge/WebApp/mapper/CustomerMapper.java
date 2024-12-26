@@ -8,7 +8,7 @@ public class CustomerMapper {
     private CustomerMapper() {
     }
 
-    public static CustomerDTO toDTO(Customer customer) {
+    public static CustomerDTO CustomerToDTO(Customer customer) {
         if (customer == null) {
             return null;
         }
@@ -20,7 +20,7 @@ public class CustomerMapper {
         return dto;
     }
 
-    public static Customer toEntity(CustomerDTO dto) {
+    public static Customer CustomerToEntity(CustomerDTO dto) {
         if (dto == null) {
             return null;
         }

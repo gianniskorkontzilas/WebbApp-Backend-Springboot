@@ -8,14 +8,14 @@ public class StoreMapper {
     private StoreMapper() {
     }
 
-    public static StoreDTO toDTO(Store store) {
+    public static StoreDTO StoreToDTO(Store store) {
         if (store == null) {
             return null;
         }
         return new StoreDTO(store.getId(), store.getName());
     }
 
-    public static Store toEntity(StoreDTO storeDTO) {
+    public static Store StoreToEntity(StoreDTO storeDTO) {
         if (storeDTO == null) {
             return null;
         }
