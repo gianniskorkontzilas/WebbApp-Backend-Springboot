@@ -18,6 +18,7 @@ public class CustomerMapper {
         dto.setVatNumber(customer.getVatNumber());
         dto.setFirstName(customer.getFirstName());
         dto.setLastName(customer.getLastName());
+        dto.setStoreId(customer.getStore().getId());
         return dto;
     }
 
@@ -30,7 +31,7 @@ public class CustomerMapper {
         customer.setVatNumber(dto.getVatNumber());
         customer.setFirstName(dto.getFirstName());
         customer.setLastName(dto.getLastName());
-
+        customer.setStore(store);
         return customer;
     }
 }
