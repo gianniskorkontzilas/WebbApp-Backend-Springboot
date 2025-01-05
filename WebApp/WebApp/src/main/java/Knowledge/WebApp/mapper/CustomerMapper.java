@@ -29,6 +29,7 @@ public class CustomerMapper {
         customer.setVatNumber(dto.getVatNumber());
         customer.setFirstName(dto.getFirstName());
         customer.setLastName(dto.getLastName());
+
         return customer;
     }
 }
