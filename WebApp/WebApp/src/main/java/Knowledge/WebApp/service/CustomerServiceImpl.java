@@ -28,37 +28,20 @@ public class CustomerServiceImpl implements ICustomerService {
         this.storeRepository = storeRepository;
     }
 
-//    @Transactional
-//    @Override
-//    public Customer insertCustomer(CustomerDTO customerDTO) throws Exception {
-//
-//        Customer customer;
-//        try {
-//            Store store = storeRepository.findById(customerDTO.getStoreId())
-//                    .orElseThrow(() -> new Exception("Store not found"));
-//            customer = customerRepository.save(CustomerMapper.CustomerToEntity(customerDTO));
-//            if (customer.getId() == null) {
-//                throw new Exception("Insert Error");
-//            }
-//            logger.info("Successfully inserted customer with ID: {}", customer.getId());
-//        } catch (Exception e) {
-//            logger.error("Error inserting customer: {}", e.getMessage(), e);
-//            throw e;
-//        }
-//        return customer;
-//    }
 
     @Transactional
     @Override
     public Customer insertCustomer(CustomerDTO customerDTO) throws Exception {
         Customer customer;
         try {
-
             if (customerDTO.getStoreId() == null) {
                 throw new IllegalArgumentException("Store ID must not be null");
             }
-            Store store = storeRepository.findById(customerDTO.getStoreId())
-                    .orElseThrow(() -> new Exception("Store not found"));
+
+            Store store = storeRepository.findStoreById(customerDTO.getStoreId());
+            if (store == null) {
+                throw new EntityNotFoundException(Store.class, customerDTO.getStoreId());
+            }
 
             customer = customerRepository.save(CustomerMapper.CustomerToEntity(customerDTO, store));
 
@@ -66,12 +49,11 @@ public class CustomerServiceImpl implements ICustomerService {
                 throw new Exception("Insert Error");
             }
 
-            logger.info("Successfully inserted customer with ID: {}", customer.getId());
+            return customer;
+
         } catch (Exception e) {
-            logger.error("Error inserting customer: {}", e.getMessage(), e);
-            throw e;
+            throw new Exception("Error inserting customer: " + e.getMessage());
         }
-        return customer;
     }
 
 

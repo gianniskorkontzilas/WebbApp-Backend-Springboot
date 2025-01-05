@@ -22,15 +22,15 @@ public class CustomerMapper {
         return dto;
     }
 
-    public static Customer CustomerToEntity(CustomerDTO dto, Store store) {
-        if (dto == null) {
+    public static Customer CustomerToEntity(CustomerDTO customerDTO, Store store) {
+        if (customerDTO == null) {
             return null;
         }
         Customer customer = new Customer();
-        customer.setId(dto.getId());
-        customer.setVatNumber(dto.getVatNumber());
-        customer.setFirstName(dto.getFirstName());
-        customer.setLastName(dto.getLastName());
+        customer.setDateOfBirth(customerDTO.getDateOfBirth());
+        customer.setVatNumber(customerDTO.getVatNumber());
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
         customer.setStore(store);
         return customer;
     }
