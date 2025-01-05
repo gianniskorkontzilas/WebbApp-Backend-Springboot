@@ -4,8 +4,7 @@ import Knowledge.WebApp.dto.CustomerDTO;
 import Knowledge.WebApp.model.Customer;
 import Knowledge.WebApp.service.ICustomerService;
 import Knowledge.WebApp.service.exceptions.EntityNotFoundException;
-
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +13,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
-@RequiredArgsConstructor
 public class CustomerController {
 
     private final ICustomerService customerService;
+
+    @Autowired
+    public CustomerController(ICustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @PostMapping
     public ResponseEntity<Customer> insertCustomer(@RequestBody CustomerDTO customerDTO) {
@@ -31,7 +34,7 @@ public class CustomerController {
     }
 
     @PutMapping
-    public ResponseEntity<Customer> updateCustomer(@RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity<Customer> updateCustomers (@RequestBody CustomerDTO customerDTO) {
         try {
             Customer customer = customerService.updateCustomer(customerDTO);
             return new ResponseEntity<>(customer, HttpStatus.OK);

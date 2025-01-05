@@ -6,6 +6,7 @@ import Knowledge.WebApp.service.exceptions.EntityNotFoundException;
 
 import java.util.List;
 
+
 public interface ICustomerService {
     Customer insertCustomer(CustomerDTO customerDTO) throws Exception;
 

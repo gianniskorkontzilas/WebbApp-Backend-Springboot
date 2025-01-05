@@ -5,18 +5,19 @@ import Knowledge.WebApp.mapper.StoreMapper;
 import Knowledge.WebApp.model.Store;
 import Knowledge.WebApp.repository.StoreRepository;
 import Knowledge.WebApp.service.exceptions.EntityNotFoundException;
-
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class StoreServiceImpl implements IStoreService {
 
     private final StoreRepository storeRepository;
+
+    public StoreServiceImpl(StoreRepository storeRepository) {
+        this.storeRepository = storeRepository;
+    }
 
     @Transactional
     @Override

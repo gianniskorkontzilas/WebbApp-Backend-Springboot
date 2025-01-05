@@ -6,14 +6,23 @@ import lombok.*;
 import java.util.List;
 
 @ToString
-@AllArgsConstructor
 @EqualsAndHashCode
-@NoArgsConstructor
 @Setter
 @Getter
 @Entity
 @Table(name = "Stores")
 public class Store {
+
+    public Store() {
+
+    }
+
+    public Store(Long id, String name, List<Customer> customers) {
+        this.id = id;
+        this.name = name;
+        this.customers = customers;
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +34,28 @@ public class Store {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Customer> customers;
 
+    public Long getId() {
+        return id;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
 }
 

@@ -7,18 +7,23 @@ import Knowledge.WebApp.model.Store;
 import Knowledge.WebApp.repository.CustomerRepository;
 import Knowledge.WebApp.repository.StoreRepository;
 import Knowledge.WebApp.service.exceptions.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CustomerServiceImpl implements ICustomerService {
 
     private final CustomerRepository customerRepository;
     private final StoreRepository storeRepository;
+
+    @Autowired
+    public CustomerServiceImpl(CustomerRepository customerRepository, StoreRepository storeRepository) {
+        this.customerRepository = customerRepository;
+        this.storeRepository = storeRepository;
+    }
 
     @Transactional
     @Override

@@ -4,7 +4,7 @@ import Knowledge.WebApp.dto.StoreDTO;
 import Knowledge.WebApp.model.Store;
 import Knowledge.WebApp.service.IStoreService;
 import Knowledge.WebApp.service.exceptions.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +13,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/stores")
-@RequiredArgsConstructor
 public class StoreController {
 
     private final IStoreService storeService;
 
+    @Autowired
+    public StoreController(IStoreService storeService) {
+        this.storeService = storeService;
+    }
     @PostMapping
     public ResponseEntity<Store> insertStore(@RequestBody StoreDTO storeDTO) {
         try {

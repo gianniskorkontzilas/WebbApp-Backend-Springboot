@@ -13,9 +13,12 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Entity
-@Data
 @Table(name = "Customers")
 public class Customer {
+
+
+
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,5 +40,52 @@ public class Customer {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getVatNumber() {
+        return vatNumber;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setVatNumber(String vatNumber) {
+        this.vatNumber = vatNumber;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
 }
 

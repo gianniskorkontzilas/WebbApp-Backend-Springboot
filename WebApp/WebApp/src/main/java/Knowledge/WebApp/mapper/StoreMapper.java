@@ -19,7 +19,7 @@ public class StoreMapper {
         if (storeDTO == null) {
             return null;
         }
-        return new Store(storeDTO.getId(), storeDTO.getName(), null);
+        return new Store(storeDTO.getId(), storeDTO.getName(),null);
     }
 }
 
