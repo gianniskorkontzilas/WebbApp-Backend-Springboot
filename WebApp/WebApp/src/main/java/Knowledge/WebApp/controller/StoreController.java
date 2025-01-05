@@ -40,7 +40,7 @@ public class StoreController {
     @PutMapping("/{id}")
     public ResponseEntity<Store> updateStore(@PathVariable Long id, @RequestBody StoreDTO storeDTO) {
         try {
-            storeDTO.setId(id); 
+            storeDTO.setId(id);
             Store store = storeService.updateStore(storeDTO);
             logger.info("Successfully updated store with ID: {}", store.getId());
             return new ResponseEntity<>(store, HttpStatus.OK);
