@@ -37,9 +37,10 @@ public class CustomerController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Customer> updateCustomer(@RequestBody CustomerDTO customerDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
         try {
+            customerDTO.setId(id);
             Customer customer = customerService.updateCustomer(customerDTO);
             logger.info("Successfully updated customer with ID: {}", customer.getId());
             return new ResponseEntity<>(customer, HttpStatus.OK);
