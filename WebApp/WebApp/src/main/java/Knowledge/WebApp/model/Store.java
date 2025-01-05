@@ -31,7 +31,7 @@ public class Store {
     @Column(name = "name" , nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "store", cascade = CascadeType.ALL)
     private List<Customer> customers;
 
     public Long getId() {
