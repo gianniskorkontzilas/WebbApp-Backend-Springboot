@@ -2,6 +2,7 @@ package Knowledge.WebApp.mapper;
 
 import Knowledge.WebApp.dto.CustomerDTO;
 import Knowledge.WebApp.model.Customer;
+import Knowledge.WebApp.model.Store;
 
 public class CustomerMapper {
 
@@ -20,7 +21,7 @@ public class CustomerMapper {
         return dto;
     }
 
-    public static Customer CustomerToEntity(CustomerDTO dto) {
+    public static Customer CustomerToEntity(CustomerDTO dto, Store store) {
         if (dto == null) {
             return null;
         }

@@ -7,6 +7,8 @@ import Knowledge.WebApp.model.Store;
 import Knowledge.WebApp.repository.CustomerRepository;
 import Knowledge.WebApp.repository.StoreRepository;
 import Knowledge.WebApp.service.exceptions.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements ICustomerService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
     private final CustomerRepository customerRepository;
     private final StoreRepository storeRepository;
 
@@ -25,23 +28,52 @@ public class CustomerServiceImpl implements ICustomerService {
         this.storeRepository = storeRepository;
     }
 
+//    @Transactional
+//    @Override
+//    public Customer insertCustomer(CustomerDTO customerDTO) throws Exception {
+//
+//        Customer customer;
+//        try {
+//            Store store = storeRepository.findById(customerDTO.getStoreId())
+//                    .orElseThrow(() -> new Exception("Store not found"));
+//            customer = customerRepository.save(CustomerMapper.CustomerToEntity(customerDTO));
+//            if (customer.getId() == null) {
+//                throw new Exception("Insert Error");
+//            }
+//            logger.info("Successfully inserted customer with ID: {}", customer.getId());
+//        } catch (Exception e) {
+//            logger.error("Error inserting customer: {}", e.getMessage(), e);
+//            throw e;
+//        }
+//        return customer;
+//    }
+
     @Transactional
     @Override
     public Customer insertCustomer(CustomerDTO customerDTO) throws Exception {
         Customer customer;
-
         try {
-            customer = customerRepository.save( CustomerMapper.CustomerToEntity(customerDTO));
+
+            if (customerDTO.getStoreId() == null) {
+                throw new IllegalArgumentException("Store ID must not be null");
+            }
+            Store store = storeRepository.findById(customerDTO.getStoreId())
+                    .orElseThrow(() -> new Exception("Store not found"));
+
+            customer = customerRepository.save(CustomerMapper.CustomerToEntity(customerDTO, store));
+
             if (customer.getId() == null) {
                 throw new Exception("Insert Error");
             }
-            System.out.println ("Successfully inserted customer with ID: "+ customer.getId());
+
+            logger.info("Successfully inserted customer with ID: {}", customer.getId());
         } catch (Exception e) {
-            System.out.println("Error inserting customer: " + e.getMessage());
+            logger.error("Error inserting customer: {}", e.getMessage(), e);
             throw e;
         }
         return customer;
     }
+
 
     @Transactional
     @Override
@@ -49,14 +81,16 @@ public class CustomerServiceImpl implements ICustomerService {
         Customer customer;
         try {
             customer = customerRepository.findCustomerById(customerDTO.getId());
-            if (customer == null) throw new EntityNotFoundException(Customer.class, customerDTO.getId());
+            if (customer == null) {
+                throw new EntityNotFoundException(Customer.class, customerDTO.getId());
+            }
             customer.setFirstName(customerDTO.getFirstName());
             customer.setLastName(customerDTO.getLastName());
             customer.setVatNumber(customerDTO.getVatNumber());
             customer = customerRepository.save(customer);
-            System.out.println ("Successfully updated customer with ID: " + customer.getId());
+            logger.info("Successfully updated customer with ID: {}", customer.getId());
         } catch (EntityNotFoundException e) {
-            System.out.println("Error updating customer: " + e.getMessage());
+            logger.error("Error updating customer: {}", e.getMessage(), e);
             throw e;
         }
         return customer;
@@ -68,11 +102,13 @@ public class CustomerServiceImpl implements ICustomerService {
         Customer customer;
         try {
             customer = customerRepository.findCustomerById(id);
-            if (customer == null) throw new EntityNotFoundException(Customer.class, id);
+            if (customer == null) {
+                throw new EntityNotFoundException(Customer.class, id);
+            }
             customerRepository.deleteById(id);
-            System.out.println ("Successfully deleted customer with ID: " + id);
+            logger.info("Successfully deleted customer with ID: {}", id);
         } catch (EntityNotFoundException e) {
-            System.out.println ("Error deleting customer: " + e.getMessage());
+            logger.error("Error deleting customer: {}", e.getMessage(), e);
             throw e;
         }
         return customer;
@@ -81,7 +117,7 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public List<Customer> getAllCustomers() {
         List<Customer> customers = customerRepository.findAll();
-        System.out.println("Retrieved all customers. Count: " + customers.size());
+        logger.info("Successfully retrieved all customers. Count: {}", customers.size());
         return customers;
     }
 
@@ -90,32 +126,33 @@ public class CustomerServiceImpl implements ICustomerService {
         List<Customer> customers;
         try {
             Store store = storeRepository.findStoreById(storeId);
-            if (store == null) throw new EntityNotFoundException(Store.class, storeId);
+            if (store == null) {
+                throw new EntityNotFoundException(Store.class, storeId);
+            }
             customers = customerRepository.findByStore(store);
             if (customers.isEmpty()) {
-                System.out.println("No customers found for store ID: " + storeId);
+                logger.info("No customers found for store ID: {}", storeId);
             } else {
-                System.out.println("Retrieved customers for store ID:  Count: "+ storeId + customers.size());
+                logger.info("Successfully retrieved customers for store ID: {}. Count: {}", storeId, customers.size());
             }
         } catch (EntityNotFoundException e) {
-            System.out.println("Error retrieving customers for store ID: " +  storeId + e);
+            logger.error("Error retrieving customers for store ID {}: {}", storeId, e.getMessage(), e);
             throw e;
         }
         return customers;
     }
-
-
-
 
     @Override
     public Customer getCustomerById(Long id) throws EntityNotFoundException {
         Customer customer;
         try {
             customer = customerRepository.findCustomerById(id);
-            if(customer == null) throw new EntityNotFoundException(Customer.class, id);
-            System.out.println("Successfully retrieved customer with ID: " + id);
+            if (customer == null) {
+                throw new EntityNotFoundException(Customer.class, id);
+            }
+            logger.info("Successfully retrieved customer with ID: {}", id);
         } catch (EntityNotFoundException e) {
-            System.out.println("Error retrieving customer: " + e.getMessage());
+            logger.error("Error retrieving customer: {}", e.getMessage(), e);
             throw e;
         }
         return customer;
@@ -127,14 +164,13 @@ public class CustomerServiceImpl implements ICustomerService {
         try {
             customer = customerRepository.findByVatNumber(vatNumber);
             if (customer == null) {
-                throw new EntityNotFoundException(Customer.class, 0L);
+                throw new EntityNotFoundException(Customer.class, 0L);  // Or better handle this case
             }
-            System.out.println("Successfully retrieved customer with VAT number: " + vatNumber);
+            logger.info("Successfully retrieved customer with VAT number: {}", vatNumber);
         } catch (EntityNotFoundException e) {
-            System.out.println("Error retrieving customer: " + e.getMessage());
+            logger.error("Error retrieving customer with VAT number {}: {}", vatNumber, e.getMessage(), e);
             throw e;
         }
         return customer;
     }
-
 }
