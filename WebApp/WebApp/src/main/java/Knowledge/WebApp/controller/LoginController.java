@@ -29,7 +29,7 @@ public class LoginController {
 
         String jwt = jwtUtil.generateToken(credentials.getLogin());
 
-        return ResponseEntity.ok(jwt);  
+        return ResponseEntity.ok(jwt);
     }
 
 
