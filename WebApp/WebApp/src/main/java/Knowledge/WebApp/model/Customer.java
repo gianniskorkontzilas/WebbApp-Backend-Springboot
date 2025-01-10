@@ -37,7 +37,7 @@ public class Customer {
     private LocalDate dateOfBirth;
 
     @ManyToOne
-    @JoinColumn(name = "store_id", nullable = false)
+    @JoinColumn(name = "store_id")
     private Store store;
 
     public Long getId() {
