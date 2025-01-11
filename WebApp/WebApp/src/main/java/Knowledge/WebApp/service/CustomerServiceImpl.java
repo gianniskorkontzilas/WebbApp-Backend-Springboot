@@ -81,23 +81,20 @@ public class CustomerServiceImpl implements ICustomerService {
     @Transactional
     @Override
     public Customer deleteCustomer(Long id) throws EntityNotFoundException {
-        Customer customer;
-        try {
-            customer = customerRepository.findCustomerById(id);
-            if (customer == null) {
-                throw new EntityNotFoundException(Customer.class, id);
-            }
-            customerRepository.deleteById(id);
-            logger.info("Successfully deleted customer with ID: {}", id);
-        } catch (EntityNotFoundException e) {
-            logger.error("Error deleting customer: {}", e.getMessage(), e);
-            throw e;
+        Customer customer = customerRepository.findCustomerById(id);
+        if (customer == null) {
+            throw new EntityNotFoundException(Customer.class, id);
         }
+
+        Store store = customer.getStore();
+        if (store != null) {
+            store.getCustomers().remove(customer);
+        }
+
+        customerRepository.deleteById(id);
+        logger.info("Successfully deleted customer with ID: {}", id);
         return customer;
     }
-
-
-
 
 
     @Override
