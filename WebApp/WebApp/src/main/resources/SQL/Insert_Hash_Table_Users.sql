@@ -19,3 +19,16 @@ WHERE login = 'user2' AND password = crypt('password1', password);
 
 SELECT * FROM Users
 WHERE login = 'user' AND password = crypt('password', password);
+
+
+--sha-256 hashed
+
+INSERT INTO Users (login, password)
+VALUES ('user1200', encode(digest('password1234', 'sha256'), 'hex'));
+
+INSERT INTO Users (login, password)
+VALUES ('user2100', encode(digest('password124', 'sha256'), 'hex'));
+
+INSERT INTO Users (login, password)
+VALUES ('user309', encode(digest('password34', 'sha256'), 'hex'));
+

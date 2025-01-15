@@ -21,6 +21,7 @@ public class LoginController {
         this.jwtUtil = jwtUtil;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserCredentials credentials) {
         Authentication authentication = authenticationManager.authenticate(
@@ -32,12 +33,10 @@ public class LoginController {
         return ResponseEntity.ok(jwt);
     }
 
-
     public static class UserCredentials {
         private String login;
         private String password;
 
-        // Getters and Setters
         public String getLogin() {
             return login;
         }
@@ -54,7 +53,4 @@ public class LoginController {
             this.password = password;
         }
     }
-
 }
-
-
