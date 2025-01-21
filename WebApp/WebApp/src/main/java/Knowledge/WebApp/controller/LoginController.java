@@ -21,7 +21,7 @@ public class LoginController {
         this.jwtUtil = jwtUtil;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+//    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserCredentials credentials) {
         Authentication authentication = authenticationManager.authenticate(

@@ -1,7 +1,11 @@
 package Knowledge.WebApp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -31,7 +35,9 @@ public class Store {
     @Column(name = "name" , nullable = false, unique = true)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "store", cascade = CascadeType.ALL)
+//    @OneToMany(fetch = FetchType.EAGER,mappedBy = "store", cascade = CascadeType.ALL)
+@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+@JsonManagedReference
     private List<Customer> customers;
 
     public Long getId() {
