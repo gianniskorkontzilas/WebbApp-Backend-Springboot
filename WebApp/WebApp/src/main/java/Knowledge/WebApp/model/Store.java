@@ -35,8 +35,8 @@ public class Store {
     @Column(name = "name" , nullable = false, unique = true)
     private String name;
 
-//    @OneToMany(fetch = FetchType.EAGER,mappedBy = "store", cascade = CascadeType.ALL)
-@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "store", cascade = CascadeType.ALL)
+//@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 @JsonManagedReference
     private List<Customer> customers;
 

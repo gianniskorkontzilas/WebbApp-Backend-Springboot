@@ -22,8 +22,8 @@ public class StoreServiceImpl implements IStoreService {
         this.storeRepository = storeRepository;
     }
 
-    @jakarta.transaction.Transactional
-    @Override
+@Transactional
+@Override
     public Store insertStore(StoreDTO storeDTO) throws Exception {
         Store store;
         try {
@@ -39,8 +39,8 @@ public class StoreServiceImpl implements IStoreService {
         return store;
     }
 
-    @jakarta.transaction.Transactional
-    @Override
+@Transactional
+@Override
     public Store updateStore(StoreDTO storeDTO) throws EntityNotFoundException {
         Store store;
         try {
