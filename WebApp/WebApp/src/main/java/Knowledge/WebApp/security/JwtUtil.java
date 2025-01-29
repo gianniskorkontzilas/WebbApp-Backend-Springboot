@@ -2,6 +2,7 @@ package Knowledge.WebApp.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
@@ -25,14 +26,27 @@ public class JwtUtil {
                 .compact();
     }
 
+//    public boolean validateToken(String token, String login) {
+//        try {
+//            String tokenUsername = extractUsername(token);
+//            return (tokenUsername.equals(login) && !isTokenExpired(token));
+//        } catch (Exception e) {
+//            return false;
+//        }
+//    }
+
     public boolean validateToken(String token, String login) {
         try {
             String tokenUsername = extractUsername(token);
             return (tokenUsername.equals(login) && !isTokenExpired(token));
+        } catch (MalformedJwtException e) {
+            System.out.println("Invalid JWT format: " + e.getMessage());
         } catch (Exception e) {
-            return false;
+            System.out.println("Token validation error: " + e.getMessage());
         }
+        return false;
     }
+
 
     public String extractUsername(String token) {
         return extractClaims(token).getSubject();
@@ -42,13 +56,14 @@ public class JwtUtil {
         return extractClaims(token).getExpiration().before(new Date());
     }
 
-    private Claims extractClaims(String token) {
+    private Claims extractClaims(String jwt) {
         return Jwts.parser()
                 .verifyWith(getSignInKey())
                 .build()
-                .parseSignedClaims(token)
+                .parseSignedClaims(jwt)
                 .getPayload();
     }
+
 
 
     private SecretKey getSignInKey() {
